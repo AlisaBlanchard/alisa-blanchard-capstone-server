@@ -1,0 +1,19 @@
+[
+    {
+        "itemId": "987-654-321-000000",
+        "image": "https://i.imgur.com/yFS8EBr.jpg",
+        "itemName": "LifeTrack Tumbler",
+        "quantity": 40,
+        "description": "Stay Hydrated with our new 1l/32oz BPA free & Non-toxic waterbottle",
+        "price": 16.99
+    },
+    {
+        "itemId": "987-654-322-000000",
+        "image": "https://i.imgur.com/yFS8EBr.jpg",
+        "itemName": "LifeTrack Hoodie",
+        "quantity": 20,
+        "description": "100% cotton unisex oversized fit hoodie",
+        "price": 50.00
+    }
+
+]

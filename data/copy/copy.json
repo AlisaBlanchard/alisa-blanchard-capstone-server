@@ -1,0 +1,12 @@
+[
+    {
+        "sectionId": "654-321-987-000000",
+        "sectionName": "About",
+        "mission": "At LifeTrack we believe in Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus condimentum porttitor lacus, sit amet porttitor ex rhoncus sed. Curabitur at metus consequat, convallis elit quis, tincidunt mauris. Nunc hendrerit ultrices dui, eu sollicitudin lectus convallis eu. Donec sit amet ipsum ac arcu tempus finibus. Aenean id viverra magna. Sed luctus nisi ut laoreet cursus."
+    },
+    {
+        "sectionId": "654-321-988-000000",
+        "sectionName": "Home",
+        "heroCopy": "Maecenas dictum mauris metus, sit amet ullamcorper diam congue id. Curabitur feugiat ligula vel sapien mattis, ut cursus risus vulputate. Donec"
+    }
+]
