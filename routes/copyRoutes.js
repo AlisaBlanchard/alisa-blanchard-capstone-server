@@ -68,3 +68,4 @@ router.get('/articles/:articleId', (req, res) => {
     });
 });
 
+module.exports = router;

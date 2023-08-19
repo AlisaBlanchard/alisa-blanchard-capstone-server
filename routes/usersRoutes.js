@@ -122,3 +122,5 @@ router.delete('/:userId', (req, res) => {
     res.send('User deleted sucessfully');
 
 })
+
+module.exports = router;

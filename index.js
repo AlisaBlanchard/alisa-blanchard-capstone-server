@@ -1,11 +1,10 @@
 const express = require('express');
-const cors =require('cors');
+const cors = require('cors');
 const app = express();
 const fs = require('fs');
-// const router = express.Router();
-// const usersRoutes = require('./routes/usersRoutes');
-// const merchandiseRoutes = require('./routes/merchandiseRoutes');
-// const copyRoutes = require('./routes/copyRoutes');
+const usersRoutes = require('./routes/usersRoutes');
+const merchandiseRoutes = require('./routes/merchandiseRoutes');
+const copyRoutes = require('./routes/copyRoutes');
 
 //Middleware
 
@@ -19,9 +18,9 @@ app.use(express.json());
 app.use(express.static('public'));
 
 // //To use routes
-// app.use('/users', usersRoutes);
-// app.use('/merchandise', merchandiseRoutes);
-// app.use('/copy', copyRoutes);
+app.use('/users', usersRoutes);
+app.use('/merchandise', merchandiseRoutes);
+app.use('/copy', copyRoutes);
 
 
 

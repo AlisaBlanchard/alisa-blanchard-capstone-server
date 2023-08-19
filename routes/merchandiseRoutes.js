@@ -66,3 +66,4 @@ router.put('/:itemId', (req, res) => {
             res.send('item quantity updated');
     });
 });
+module.exports = router;
