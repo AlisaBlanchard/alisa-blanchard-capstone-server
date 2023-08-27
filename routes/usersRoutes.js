@@ -20,13 +20,13 @@ router.get('/', (req, res) => {
 });
 
 //GET a single user's information
-router.get('/:userID', (req, res) => {
-    const userID = req.params.userID;
+router.get('/:userId', (req, res) => {
+    const userID = req.params.userId;
 
     fs.readFile('./data/users/users.json', 'utf8', (err, data) => {
         if (err) {
             console.log(err);
-            return res.send('Error retrieving user with id' + userID_);
+            return res.send('Error retrieving user with id' + userID );
         }
         //Store full array 
         const users = JSON.parse(data);
@@ -75,7 +75,7 @@ router.post('/', (req, res) => {
 //PUT
 //PUT to update the user information of a specific user
 router.put('/:userId', (req, res) => {
-    const userID = req.params.userID;
+    const userID = req.params.userId;
 
     fs.readFile('./data/users/users.json', 'utf8', (err, data) => {
         if (err) {
@@ -103,7 +103,7 @@ router.put('/:userId', (req, res) => {
 //DELETE
 //DELETE to remove user from users array
 router.delete('/:userId', (req, res) => {
-    const userID = req.params.userID;
+    const userID = req.params.userId;
 
     fs.readFile('./data/users/users.json', 'utf8', (err, data) => {
         if (err) {

@@ -5,11 +5,17 @@ const fs = require('fs');
 const usersRoutes = require('./routes/usersRoutes');
 const merchandiseRoutes = require('./routes/merchandiseRoutes');
 const copyRoutes = require('./routes/copyRoutes');
+const trackerRoutes = require('./routes/trackerRoutes');
+
 
 //Middleware
 
 //CORS
 app.use(cors());
+
+// require("dotenv").config();
+// const { PORT, CORS_ORIGIN } = process.env;
+
 
 //To work with req.body
 app.use(express.json());
@@ -21,6 +27,7 @@ app.use(express.static('public'));
 app.use('/users', usersRoutes);
 app.use('/merchandise', merchandiseRoutes);
 app.use('/copy', copyRoutes);
+app.use('/trackers', trackerRoutes);
 
 
 
