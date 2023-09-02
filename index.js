@@ -6,6 +6,7 @@ const usersRoutes = require('./routes/usersRoutes');
 const merchandiseRoutes = require('./routes/merchandiseRoutes');
 const copyRoutes = require('./routes/copyRoutes');
 const trackerRoutes = require('./routes/trackerRoutes');
+const articleRoutes = require('./routes/articlesRoutes');
 
 
 //Middleware
@@ -28,6 +29,7 @@ app.use('/users', usersRoutes);
 app.use('/merchandise', merchandiseRoutes);
 app.use('/copy', copyRoutes);
 app.use('/trackers', trackerRoutes);
+app.use('/articles', articleRoutes);
 
 
 
