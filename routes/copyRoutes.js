@@ -32,40 +32,11 @@ router.get('/:sectionId', (req, res) => {
         const copyArray = JSON.parse(data);
 
         //If userId in array is == userId from URL, send that user's data
-        const foundSection = items.find((obj) => obj.sectionId == sectionID);
+        const foundSection = copyArray.find((obj) => obj.sectionId == sectionID);
 
         res.json(foundSection);
     });
 });
 
-//GET to retrieve all of articles array
-router.get('/articles', (req, res) => {
-    fs.readFile('./data/copy/articles.json', 'utf8', (err, data) => {
-        if (err) {
-            console.log(err);
-            return res.send('Error retrieving articles array');
-        }
-        res.json(JSON.parse(data));
-    })
-});
-
-//GET to retrieve a single article by articleId
-router.get('/articles/:articleId', (req, res) => {
-    const articleID = req.params.articleId;
-
-    fs.readFile('./data/copy/copy.json', 'utf8', (err, data) => {
-        if (err) {
-            console.log(err);
-            return res.send('Error retrieving articles array');
-        }
-        //Store full array 
-        const articles = JSON.parse(data);
-
-        //If userId in array is == userId from URL, send that user's data
-        const foundArticle = articles.find((article) => article.articleId == articleID);
-
-        res.json(foundArticle);
-    });
-});
 
 module.exports = router;
