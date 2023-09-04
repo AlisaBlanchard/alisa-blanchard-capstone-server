@@ -16,7 +16,7 @@ const cookieParser = require('cookie-parser');
 //Middleware
 
 //CORS
-app.use(cors());
+// app.use(cors());
 const allowedOrigins =['http://localhost:3000']; //Add other origins as needed
 const corsOptions = {
     origin: allowedOrigins,
@@ -24,7 +24,7 @@ const corsOptions = {
 
   }
 
-  app.use(cors(corsOptions));
+app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(
     session({
@@ -38,6 +38,19 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
+
+//To work with req.body
+app.use(express.json());
+
+//To use Public folder to serve static images
+app.use(express.static('public'));
+
+// //To use routes
+app.use('/users', usersRoutes);
+app.use('/merchandise', merchandiseRoutes);
+app.use('/copy', copyRoutes);
+app.use('/trackers', trackerRoutes);
+app.use('/articles', articleRoutes);
 
 // Google OAuth Configuration
 passport.use(
@@ -63,7 +76,13 @@ passport.deserializeUser((user, done) => {
     done(null, user);
 });
 
+
+
 // Routes
+app.get('/', (req, res) => {
+  res.send('Welcome to my API!')
+});
+
 app.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
 app.get(
@@ -95,41 +114,6 @@ app.get('/logout', (req, res) => {
     });
 });
 
-// // Start the server
-// const PORT = process.env.PORT || 5000;
-// app.listen(PORT, () => {
-//     console.log(`Server is running on port ${PORT}`);
-// });
-
-
-
-// require("dotenv").config();
-// const { PORT, CORS_ORIGIN } = process.env;
-
-
-//To work with req.body
-app.use(express.json());
-
-//To use Public folder to serve static images
-app.use(express.static('public'));
-
-// //To use routes
-app.use('/users', usersRoutes);
-app.use('/merchandise', merchandiseRoutes);
-app.use('/copy', copyRoutes);
-app.use('/trackers', trackerRoutes);
-app.use('/articles', articleRoutes);
-
-
-
-
-
-//End Points
-
-//GET
-app.get('/', (req, res) => {
-  res.send('Welcome to my API!')
-});
 
 //Port
 app.listen(5050, () => {

@@ -3,21 +3,111 @@
         "userId": "123-456-789-1011",
         "trackerId": "001",
         "tracker_name": "Meditation",
+        "template": [
+            {
+                "label": "Time Meditated",
+                "method": "Number",
+                "value": 0
+            },
+            {
+                "label": "Mood",
+                "method": "RangeRadio",
+                "value": 0
+            },
+            {
+                "label": "Breakdowns",
+                "method": "Number",
+                "value": 0
+            },
+            {
+                "label": "Breakdowns",
+                "method": "BooleanRadio",
+                "value": null
+            }
+        ],
         "sessions": [
             {
                 "trackerId": "001",
                 "sessionId": "001",
-                "date": "06/08/2023"
+                "date": "06/08/2023",
+                "data": [
+                    {
+                        "label": "Time Meditated",
+                        "method": "Number",
+                        "value": 14
+                    },
+                    {
+                        "label": "Mood",
+                        "method": "RangeRadio",
+                        "value": 3
+                    },
+                    {
+                        "label": "Breakdowns",
+                        "method": "Number",
+                        "value": 2
+                    },
+                    {
+                        "label": "Exercised",
+                        "method": "BooleanRadio",
+                        "value": true
+                    }
+                        ]
             },
             {
                 "trackerId": "001",
                 "sessionId": "002",
-                "date": "06/09/2023"
+                "date": "06/09/2023",
+                "data": [
+                    {
+                        "label": "Time Meditated",
+                        "method": "Number",
+                        "value": 0
+                    },
+                    {
+                        "label": "Mood",
+                        "method": "RangeRadio",
+                        "value": 3
+                    },
+                    {
+                        "label": "Breakdowns",
+                        "method": "Number",
+                        "value": 3
+                    },
+                    {
+                        "label": "Exercised",
+                        "method": "BooleanRadio",
+                        "value": false
+                    }
+                        ]
+
             },
             {
                 "trackerId": "001",
                 "sessionId": "003",
-                "date": "06/10/2023"
+                "date": "06/10/2023",
+                "data": [
+                    {
+                        "label": "Time Meditated",
+                        "method": "Number",
+                        "value": 30
+                    },
+                    {
+                        "label": "Mood",
+                        "method": "RangeRadio",
+                        "value": 4
+                    },
+                    {
+                        "label": "Breakdowns",
+                        "method": "Number",
+                        "value": 1
+                    },
+                    {
+                        "label": "Exercised",
+                        "method": "BooleanRadio",
+                        "value": true
+                    }
+                        ]
+
             }
         ]
     },
