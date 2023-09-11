@@ -173,6 +173,19 @@ passport.use(
             // Store user information in your database or session.
             console.log(profile);
             
+            //New User object that gets its information from google log in
+            const newUser = {
+                userId: profile.id,
+                firstName: profile.name.givenName,
+                lastName: profile.name.familyName,
+                email: profile.emails,
+                profPic: profile.photos,
+                trackers: [],
+                sessions:[]
+            };
+
+
+            console.log(newUser);
 
             return done(null, profile);
         }
@@ -181,6 +194,22 @@ passport.use(
 
 // callBack
 // OAuth: clientId, clientSecret
+
+app.post('/users', async (req, res) => {
+    try{      
+        const db = client.db('LifeTrackerdb');
+        //Find users info and store as array in users
+        const users = await db.collection('users').find().toArray();
+        console.log(users); 
+
+        //Send status(success) and found information
+        res.status(200).json({users:users});
+        
+    }catch(error){
+        res.status(500).json({error:error.message});
+    }
+            })
+
 
 passport.serializeUser((user, done) => {
     done(null, user);
