@@ -1,24 +1,53 @@
+const { MongoClient } = require('mongodb');
 const express = require('express');
 const router = express.Router();
 const fs = require('fs');
 const bodyparser = require('body-parser');
 const { v4: uuidv4 } = require('uuid');
+const path = require('path');
+require('dotenv').config({path:path.join(__dirname, '../.env')}); //If gives error specificy the exact path
+const { MONGO_URI } = process.env;
 
 //Tracker Routes
 
 //To use bodyparser
 router.use(bodyparser.json());
 
+
+const options = {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    writeConcern: {
+        w: 'majority' // Corrected write concern mode
+    }
+};
+
+const client = new MongoClient(MONGO_URI, options);
+client.connect();
+
+
 //GET
 //GET to retrieve full trackerData array
-router.get('/', (req, res) => {
-    fs.readFile('./data/trackerData/trackerData.json', 'utf8', (err, data) => {
-        if (err) {
-            console.log(err);
-            return res.send('Error retrieving tracker information');
-        }
-        res.json(JSON.parse(data));
-    })
+router.get('/', async (req, res) => {
+    try{      
+        const db = client.db('LifeTrackerdb');
+        //Find tracker info and store as array in trackers
+        const trackers = await db.collection('Trackers').find().toArray();
+        console.log(trackers); 
+
+        //Send status(success) and found information
+        res.status(200).json({Trackers:trackers});
+        
+    }catch(error){
+        res.status(500).json({error:error.message});
+    }
+    // fs.readFile('./data/trackerData/trackerData.json', 'utf8', (err, data) => {
+    //     if (err) {
+    //         console.log(err);
+    //         return res.send('Error retrieving tracker information');
+    //     }
+    //     res.json(JSON.parse(data));
+    // })
 });
 
 //GET to retrieve all trackers & info associated with a specific userId

@@ -1,28 +1,32 @@
 [
     {
         "userId": "123-456-789-1011",
-        "trackerId": "001",
-        "tracker_name": "Meditation",
-        "template": [
+        "trackers": [
             {
-                "label": "Time Meditated",
-                "method": "Number",
-                "value": 0
-            },
-            {
-                "label": "Mood",
-                "method": "RangeRadio",
-                "value": 0
-            },
-            {
-                "label": "Breakdowns",
-                "method": "Number",
-                "value": 0
-            },
-            {
-                "label": "Breakdowns",
-                "method": "BooleanRadio",
-                "value": null
+                "trackerId": "001",
+                "tracker_name": "Meditation",
+                "template": [
+                    {
+                        "label": "Time Meditated",
+                        "method": "Number",
+                        "value": 0
+                    },
+                    {
+                        "label": "Mood",
+                        "method": "RangeRadio",
+                        "value": 0
+                    },
+                    {
+                        "label": "Breakdowns",
+                        "method": "Number",
+                        "value": 0
+                    },
+                    {
+                        "label": "Breakdowns",
+                        "method": "BooleanRadio",
+                        "value": null
+                    }
+                ]
             }
         ],
         "sessions": [
