@@ -34,8 +34,6 @@
 // app.use(passport.initialize());
 // app.use(passport.session());
 
-// //To work with req.body
-// app.use(express.json());
 
 
 
@@ -136,6 +134,9 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
+//To work with req.body
+app.use(express.json());
+
 //To use routes
 app.use('/users', usersRoutes);
 app.use('/merchandise', merchandiseRoutes);
@@ -145,6 +146,8 @@ app.use('/articles', articleRoutes);
 
 // //To use Public folder to serve static images
 app.use(express.static('public'));
+
+
 
 
 app.use(cookieParser());
@@ -171,8 +174,36 @@ passport.use(
         },
         (accessToken, refreshToken, profile, done) => {
             // Store user information in your database or session.
-            console.log(profile);
+            // console.log(profile);
             
+            //New User object that gets its information from google log in
+            const newUser = {
+                userId: profile.id,
+                firstName: profile.name.givenName,
+                lastName: profile.name.familyName,
+                email: profile.emails,
+                profPic: profile.photos,
+                trackers: [],
+                sessions:[]
+            };
+
+            fetch('http://localhost:5050/users', {
+                method:'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }, 
+                body: JSON.stringify(newUser)
+            }) 
+            .then(res => res.json()) 
+            .then(data => {
+                console.log(data);
+
+            })
+            .catch(error => {
+                console.log(error);
+            })
+
+            // console.log(newUser);
 
             return done(null, profile);
         }
@@ -181,6 +212,8 @@ passport.use(
 
 // callBack
 // OAuth: clientId, clientSecret
+
+
 
 passport.serializeUser((user, done) => {
     done(null, user);

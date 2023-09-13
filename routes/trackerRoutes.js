@@ -51,22 +51,23 @@ router.get('/', async (req, res) => {
 });
 
 //GET to retrieve all trackers & info associated with a specific userId
-router.get('/:userId', (req, res) => {
+router.get('/:userId', async (req, res) => {
     const userID = req.params.userId;
 
-    fs.readFile('./data/trackerData/trackerData.json', 'utf8', (err, data) => {
-        if (err) {
-            console.log(err);
-            return res.send('Error retrieving tracker information');
-        }
-        //Store full array 
-        const users = JSON.parse(data);
 
-        //If userId in array is == userId from URL, send that user's data
-        const {foundUser} = users.find((user) => user.userId == userID);
+    // fs.readFile('./data/trackerData/trackerData.json', 'utf8', (err, data) => {
+    //     if (err) {
+    //         console.log(err);
+    //         return res.send('Error retrieving tracker information');
+    //     }
+    //     //Store full array 
+    //     const users = JSON.parse(data);
 
-        res.json(foundUser);
-    })
+    //     //If userId in array is == userId from URL, send that user's data
+    //     const {foundUser} = users.find((user) => user.userId == userID);
+
+    //     res.json(foundUser);
+    // })
 });
 
 
