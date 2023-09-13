@@ -33,7 +33,6 @@ router.get('/', async (req, res) => {
         const db = client.db('LifeTrackerdb');
         //Find tracker info and store as array in trackers
         const trackers = await db.collection('Trackers').find().toArray();
-        console.log(trackers); 
 
         //Send status(success) and found information
         res.status(200).json({Trackers:trackers});
@@ -41,76 +40,67 @@ router.get('/', async (req, res) => {
     }catch(error){
         res.status(500).json({error:error.message});
     }
-    // fs.readFile('./data/trackerData/trackerData.json', 'utf8', (err, data) => {
-    //     if (err) {
-    //         console.log(err);
-    //         return res.send('Error retrieving tracker information');
-    //     }
-    //     res.json(JSON.parse(data));
-    // })
 });
 
 //GET to retrieve all trackers & info associated with a specific userId
 router.get('/:userId', async (req, res) => {
-    const userID = req.params.userId;
+    try{      
+        const db = client.db('LifeTrackerdb');
 
-    fs.readFile('./data/trackerData/trackerData.json', 'utf8', (err, data) => {
-        if (err) {
-            console.log(err);
-            return res.send('Error retrieving tracker information');
-        }
-        //Store full array 
-        const users = JSON.parse(data);
+        const userId = req.params.userId;
 
-    //     //If userId in array is == userId from URL, send that user's data
-    //     const {foundUser} = users.find((user) => user.userId == userID);
+        //Find tracker info and store as array in trackers
+        const trackers = await db.collection('trackers').findOne({userId:userId});
+        console.log({trackers});
 
-    //     res.json(foundUser);
-    // })
+        //Send status(success) and found information
+        res.status(200).json({Trackers:trackers});
+        
+    }catch(error){
+        res.status(500).json({error:error.message});
+    }
 });
 
 
 //GET to retrieve specific tracker by tracker id
-router.get('/:userId/:trackerId', (req, res) => {
-    const trackerID = req.params.trackerId;
+router.get('/:userId/:trackerId', async (req, res) => {
+    try{      
+        const db = client.db('LifeTrackerdb');
 
-    fs.readFile('./data/trackerData/trackerData.json', 'utf8', (err, data) => {
-        if (err) {
-            console.log(err);
-            return res.send('Error retrieving tracker information');
-        }
-        //Store full array 
-        const trackers = JSON.parse(data);
+        const trackerId = req.params.trackerId;
 
-        //If trackerId in array is == trackerId from URL, send that tracker's data
-        const foundTracker = trackers.find((tracker) => tracker.trackerId == trackerID);
+        //Find tracker info and store as array in trackers
+        const tracker = await db.collection('trackers').findOne({trackerId:trackerId});
 
-        res.json(foundTracker);
-    })
+        //Send status(success) and found information
+        res.status(200).json({Trackers:tracker});
+        
+    }catch(error){
+        res.status(500).json({error:error.message});
+    }
 });
 
 //GET to retrieve specific tracker session by trackerid and session id OR date
-router.get('/:userId/:trackerId/:sessionId', (req, res) => {
-    const trackerID = req.params.trackerId;
-    const sessionID = req.params.sessionId;
+router.get('/:userId/:trackerId/:sessionId', async (req, res) => {
+    try{      
+        const db = client.db('LifeTrackerdb');
 
-    
-    fs.readFile('./data/trackerData/trackerData.json', 'utf8', (err, data) => {
-        if (err) {
-            console.log(err);
-            return res.send('Error retrieving tracker information');
-        }
-        //Store full array 
-        const trackers = JSON.parse(data);
-
-        //If trackerId in array is == trackerId from URL, send that tracker's data
-        const {foundTracker} = trackers.find((tracker) => tracker.trackerId == trackerID);
-
-        const foundSession = foundTracker.sessions.find((session) => session.sessionId == sessionID);
+        const trackerId = req.params.trackerId;
+        const sessionId = req.params.sessionId;    
 
 
-        res.json(foundSession);
-    })
+        //Find tracker by trackerId 
+        const foundTracker = await db.collection('trackers').findOne({trackerId:trackerId});
+        
+        //Find session in foundTracker array by sessionId 
+        const session = foundTracker.find((session) => session.sessionId == sessionId);
+
+        //Send status(success) and found information
+        res.status(200).json({Trackers:session});
+        
+    }catch(error){
+        res.status(500).json({error:error.message});
+    }
 });
 
 
