@@ -107,6 +107,79 @@ router.get('/:userId/:trackerId/:sessionId', async (req, res) => {
 
 
 //POST
+//POST to add new tracker to trackers array within the Trackers collection document
+router.post('/', async (req, res) => {
+    try{    
+        const newTracker = req.body;
+        // console.log(req.body);
+
+        const db = client.db('LifeTrackerdb');
+
+        const userId = newTracker.userId;
+        const trackerName = newTracker.tracker_name;
+
+        // console.log(newTracker);
+
+
+        //Check if there is already a user object with provided userId
+        const foundUser = await db.collection('Trackers').findOne({userId:userId});
+        const foundTracker = foundUser.find((tracker) => tracker.tracker_name == trackerName);
+
+        // console.log(foundUser);
+        
+        //If tracker name already exists, send error message
+        if (foundTracker) {
+            res.status(409).json({error:'User Already Exists'});
+        } else {
+            //
+            const tracker = await db.collection('Trackers').insertOne(newTracker);
+            console.log(tracker); 
+
+            //Send status(success) and found information
+            res.status(200).json(tracker);
+        }
+        
+    }catch(error){
+        res.status(500).json({error:error.message});
+    }
+});
+
+//POST to add new session data to sessions 
+router.post('/', async (req, res) => {
+    try{    
+        const newTracker = req.body;
+        // console.log(req.body);
+
+        const db = client.db('LifeTrackerdb');
+
+        const userId = newTracker.userId;
+        const trackerName = newTracker.tracker_name;
+
+        // console.log(newTracker);
+
+
+        //Check if there is already a user object with provided userId
+        const foundUser = await db.collection('Trackers').findOne({userId:userId});
+        const foundTracker = foundUser.find((tracker) => tracker.tracker_name == trackerName);
+
+        // console.log(foundUser);
+        
+        //If tracker name already exists, send error message
+        if (foundTracker) {
+            res.status(409).json({error:'User Already Exists'});
+        } else {
+            //
+            const tracker = await db.collection('Trackers').insertOne(newTracker);
+            console.log(tracker); 
+
+            //Send status(success) and found information
+            res.status(200).json(tracker);
+        }
+        
+    }catch(error){
+        res.status(500).json({error:error.message});
+    }
+});
 
 //PUT
 
