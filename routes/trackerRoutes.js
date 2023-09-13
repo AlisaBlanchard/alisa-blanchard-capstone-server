@@ -54,26 +54,13 @@ router.get('/', async (req, res) => {
 router.get('/:userId', async (req, res) => {
     const userID = req.params.userId;
 
-    try{      
-        const db = client.db('LifeTrackerdb');
-        //Find tracker info and store as array in trackers
-        const userTrackers = await db.collection('Trackers').find(userID).toArray();
-        console.log(userTrackers); 
-
-        //Send status(success) and found information
-        res.status(200).json({Trackers:userTrackers});
-        
-    }catch(error){
-        res.status(500).json({error:error.message});
-    }
-
-    // fs.readFile('./data/trackerData/trackerData.json', 'utf8', (err, data) => {
-    //     if (err) {
-    //         console.log(err);
-    //         return res.send('Error retrieving tracker information');
-    //     }
-    //     //Store full array 
-    //     const users = JSON.parse(data);
+    fs.readFile('./data/trackerData/trackerData.json', 'utf8', (err, data) => {
+        if (err) {
+            console.log(err);
+            return res.send('Error retrieving tracker information');
+        }
+        //Store full array 
+        const users = JSON.parse(data);
 
     //     //If userId in array is == userId from URL, send that user's data
     //     const {foundUser} = users.find((user) => user.userId == userID);
