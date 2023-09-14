@@ -1,6 +1,10 @@
 [
     {
-        "userId": "123-456-789-1011",
+        "userId": "116455126248579470243",
+        "email": "belleEpoque@gmail.com",
+        "firstName": "Belle",
+        "lastName": "Epoque",
+        "profPic": "http://www.imgur.com",
         "trackers": [
             {
                 "trackerId": "001",
@@ -114,100 +118,5 @@
 
             }
         ]
-    },
-    {
-        "userId": "123-456-789-1011",
-        "trackerId": "002",
-        "tracker_name": "Yoga",
-        "sessions": [
-            {
-                "trackerId": "002",
-                "sessionId": "001",
-                "date": "06/08/2023"
-            },
-            {
-                "trackerId": "002",
-                "sessionId": "002",
-                "date": "06/09/2023"
-            },
-            {
-                "trackerId": "002",
-                "sessionId": "003",
-                "date": "06/10/2023"
-            }
-        ]
-
-    },
-    {
-        "userId": "123-456-789-1011",
-        "trackerId": "003",
-        "tracker_name": "Sertraline",
-        "sessions": [
-            {
-                "trackerId": "003",
-                "sessionId": "001",
-                "date": "06/08/2023"
-            },
-            {
-                "trackerId": "003",
-                "sessionId": "002",
-                "date": "06/09/2023"
-            },
-            {
-                "trackerId": "003",
-                "sessionId": "003",
-                "date": "06/10/2023"
-            }
-        ]
-
-
-    },
-    {
-        "userId": "123-456-789-1012",
-        "trackerId": "001",
-        "tracker_name": "Walks",
-        "sessions": [
-            {
-                "trackerId": "001",
-                "sessionId": "001",
-                "date": "06/08/2023"
-            },
-            {
-                "trackerId": "001",
-                "sessionId": "002",
-                "date": "06/09/2023"
-            },
-            {
-                "trackerId": "001",
-                "sessionId": "003",
-                "date": "06/10/2023"
-            }
-        ]
-
-
-    },
-    {
-        "userId": "123-456-789-1012",
-        "trackerId": "002",
-        "tracker_name": "Dog Mood",
-        "sessions": [
-            {
-                "trackerId": "002",
-                "sessionId": "001",
-                "date": "06/08/2023"
-            },
-            {
-                "trackerId": "002",
-                "sessionId": "002",
-                "date": "06/09/2023"
-            },
-            {
-                "trackerId": "002",
-                "sessionId": "003",
-                "date": "06/10/2023"
-            }
-        ]
-
-
     }
 ]

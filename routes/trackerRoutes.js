@@ -32,7 +32,7 @@ router.get('/', async (req, res) => {
     try{      
         const db = client.db('LifeTrackerdb');
         //Find tracker info and store as array in trackers
-        const trackers = await db.collection('Trackers').find().toArray();
+        const trackers = await db.collection('trackers').find().toArray();
 
         //Send status(success) and found information
         res.status(200).json({Trackers:trackers});
@@ -51,10 +51,10 @@ router.get('/:userId', async (req, res) => {
 
         //Find tracker info and store as array in trackers
         const trackers = await db.collection('trackers').findOne({userId:userId});
-        console.log({trackers});
+        // console.log({trackers});
 
         //Send status(success) and found information
-        res.status(200).json({Trackers:trackers});
+        res.status(200).json({trackers:trackers});
         
     }catch(error){
         res.status(500).json({error:error.message});
@@ -68,12 +68,19 @@ router.get('/:userId/:trackerId', async (req, res) => {
         const db = client.db('LifeTrackerdb');
 
         const trackerId = req.params.trackerId;
+        const userId = req.params.userId;
+
+
+        //Find the user
+        const foundUser = await db.collection('trackers').findOne({userId:userId});
+        // console.log(foundUser);
 
         //Find tracker info and store as array in trackers
-        const tracker = await db.collection('trackers').findOne({trackerId:trackerId});
+        const foundTracker = foundUser.trackers.find((tracker) => tracker.trackerId == trackerId);
+        
 
         //Send status(success) and found information
-        res.status(200).json({Trackers:tracker});
+        res.status(200).json({trackers:foundTracker});
         
     }catch(error){
         res.status(500).json({error:error.message});
@@ -85,15 +92,19 @@ router.get('/:userId/:trackerId/:sessionId', async (req, res) => {
     try{      
         const db = client.db('LifeTrackerdb');
 
+        const userId = req.params.userId;
         const trackerId = req.params.trackerId;
         const sessionId = req.params.sessionId;    
 
 
-        //Find tracker by trackerId 
-        const foundTracker = await db.collection('trackers').findOne({trackerId:trackerId});
-        
-        //Find session in foundTracker array by sessionId 
-        const session = foundTracker.find((session) => session.sessionId == sessionId);
+        //Find the user
+        const foundUser = await db.collection('trackers').findOne({userId:userId});
+
+        //Find all sessions under a trackerId
+        const trackerSessions = foundUser.sessions.filter((tracker) => tracker.trackerId == trackerId);
+
+        //Find specific sesssion by sessionid
+        const session = trackerSessions.find((session) => session.sessionId == sessionId);
 
         //Send status(success) and found information
         res.status(200).json({Trackers:session});
@@ -122,7 +133,7 @@ router.post('/', async (req, res) => {
 
 
         //Check if there is already a user object with provided userId
-        const foundUser = await db.collection('Trackers').findOne({userId:userId});
+        const foundUser = await db.collection('trackers').findOne({userId:userId});
         const foundTracker = foundUser.find((tracker) => tracker.tracker_name == trackerName);
 
         // console.log(foundUser);
@@ -132,7 +143,7 @@ router.post('/', async (req, res) => {
             res.status(409).json({error:'User Already Exists'});
         } else {
             //
-            const tracker = await db.collection('Trackers').insertOne(newTracker);
+            const tracker = await db.collection('trackers').insertOne(newTracker);
             console.log(tracker); 
 
             //Send status(success) and found information
@@ -159,7 +170,7 @@ router.post('/', async (req, res) => {
 
 
         //Check if there is already a user object with provided userId
-        const foundUser = await db.collection('Trackers').findOne({userId:userId});
+        const foundUser = await db.collection('trackers').findOne({userId:userId});
         const foundTracker = foundUser.find((tracker) => tracker.tracker_name == trackerName);
 
         // console.log(foundUser);
@@ -169,7 +180,7 @@ router.post('/', async (req, res) => {
             res.status(409).json({error:'User Already Exists'});
         } else {
             //
-            const tracker = await db.collection('Trackers').insertOne(newTracker);
+            const tracker = await db.collection('trackers').insertOne(newTracker);
             console.log(tracker); 
 
             //Send status(success) and found information
