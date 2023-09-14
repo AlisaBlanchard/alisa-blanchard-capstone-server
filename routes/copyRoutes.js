@@ -47,7 +47,7 @@ router.get('/:sectionId', async (req, res) => {
         const sectionId = req.params.sectionId;
 
         //Find tracker info and store as array in trackers
-        const sectionCopy = await db.collection('copy').findOne({sectionID:sectionId});
+        const sectionCopy = await db.collection('copy').findOne({sectionId:sectionId});
 
         //Send status(success) and found information
         res.status(200).json({copy:sectionCopy});

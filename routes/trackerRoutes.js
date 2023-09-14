@@ -50,11 +50,11 @@ router.get('/:userId', async (req, res) => {
         const userId = req.params.userId;
 
         //Find tracker info and store as array in trackers
-        const trackers = await db.collection('trackers').findOne({userId:userId});
+        const userTrackers = await db.collection('trackers').find({userId:userId}).toArray();
         // console.log({trackers});
 
         //Send status(success) and found information
-        res.status(200).json({trackers:trackers});
+        res.status(200).json({trackers:userTrackers});
         
     }catch(error){
         res.status(500).json({error:error.message});
@@ -72,11 +72,11 @@ router.get('/:userId/:trackerId', async (req, res) => {
 
 
         //Find the user
-        const foundUser = await db.collection('trackers').findOne({userId:userId});
-        // console.log(foundUser);
+        const userTrackers = await db.collection('trackers').find({userId:userId}).toArray();
+        // console.log(userTrackers);
 
         //Find tracker info and store as array in trackers
-        const foundTracker = foundUser.trackers.find((tracker) => tracker.trackerId == trackerId);
+        const foundTracker = userTrackers.find((tracker) => tracker.trackerId == trackerId);
         
 
         //Send status(success) and found information
@@ -98,10 +98,10 @@ router.get('/:userId/:trackerId/:sessionId', async (req, res) => {
 
 
         //Find the user
-        const foundUser = await db.collection('trackers').findOne({userId:userId});
+        const userTrackers = await db.collection('sessions').find({userId:userId}).toArray();
 
         //Find all sessions under a trackerId
-        const trackerSessions = foundUser.sessions.filter((tracker) => tracker.trackerId == trackerId);
+        const trackerSessions = userTrackers.filter((tracker) => tracker.trackerId == trackerId);
 
         //Find specific sesssion by sessionid
         const session = trackerSessions.find((session) => session.sessionId == sessionId);
@@ -113,6 +113,8 @@ router.get('/:userId/:trackerId/:sessionId', async (req, res) => {
         res.status(500).json({error:error.message});
     }
 });
+
+//GET to get all sessions for one users specfic tracker
 
 
 
