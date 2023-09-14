@@ -1,20 +1,19 @@
 [
     {
-        "userId": "123-456-789-1011",
-        "username": "BelleEpoque",
-        "name": "Belle Epoque",
-        "birthdate": "06-08-1992",
-        "tracking_sessions": "20"
-
-    },
-
-    {
-        "userId": "123-456-789-1012",
-        "username": "BeauEpoque",
-        "name": "Beau Epoque",
-        "birthdate": "07-12-1990",
-        "tracking_sessions": "10"
-
+        "_id": "650362623707f56c049a9542",
+        "userId": "116455126248579470243",
+        "firstName": "Alisa",
+        "lastName": "Blanchard",
+        "email": [
+                {
+                    "value": "alisablanchardmusic@gmail.com",
+                    "verified": true
+                }
+        ],
+        "profPic": [
+            {
+                "value": "https://lh3.googleusercontent.com/a/ACg8ocJJjYWeMC_QZS5MMbrikXgEDQDqNXiPwUXysIUhhH6p=s96-c"
+            }
+        ]
     }
-
 ]

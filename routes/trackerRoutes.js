@@ -32,8 +32,7 @@ router.get('/', async (req, res) => {
     try{      
         const db = client.db('LifeTrackerdb');
         //Find tracker info and store as array in trackers
-        const trackers = await db.collection('Trackers').find().toArray();
-        console.log(trackers); 
+        const trackers = await db.collection('trackers').find().toArray();
 
         //Send status(success) and found information
         res.status(200).json({Trackers:trackers});
@@ -41,83 +40,159 @@ router.get('/', async (req, res) => {
     }catch(error){
         res.status(500).json({error:error.message});
     }
-    // fs.readFile('./data/trackerData/trackerData.json', 'utf8', (err, data) => {
-    //     if (err) {
-    //         console.log(err);
-    //         return res.send('Error retrieving tracker information');
-    //     }
-    //     res.json(JSON.parse(data));
-    // })
 });
 
 //GET to retrieve all trackers & info associated with a specific userId
 router.get('/:userId', async (req, res) => {
-    const userID = req.params.userId;
+    try{      
+        const db = client.db('LifeTrackerdb');
 
+        const userId = req.params.userId;
 
-    // fs.readFile('./data/trackerData/trackerData.json', 'utf8', (err, data) => {
-    //     if (err) {
-    //         console.log(err);
-    //         return res.send('Error retrieving tracker information');
-    //     }
-    //     //Store full array 
-    //     const users = JSON.parse(data);
+        //Find tracker info and store as array in trackers
+        const userTrackers = await db.collection('trackers').find({userId:userId}).toArray();
+        // console.log({trackers});
 
-    //     //If userId in array is == userId from URL, send that user's data
-    //     const {foundUser} = users.find((user) => user.userId == userID);
-
-    //     res.json(foundUser);
-    // })
+        //Send status(success) and found information
+        res.status(200).json({trackers:userTrackers});
+        
+    }catch(error){
+        res.status(500).json({error:error.message});
+    }
 });
 
 
 //GET to retrieve specific tracker by tracker id
-router.get('/:userId/:trackerId', (req, res) => {
-    const trackerID = req.params.trackerId;
+router.get('/:userId/:trackerId', async (req, res) => {
+    try{      
+        const db = client.db('LifeTrackerdb');
 
-    fs.readFile('./data/trackerData/trackerData.json', 'utf8', (err, data) => {
-        if (err) {
-            console.log(err);
-            return res.send('Error retrieving tracker information');
-        }
-        //Store full array 
-        const trackers = JSON.parse(data);
+        const trackerId = req.params.trackerId;
+        const userId = req.params.userId;
 
-        //If trackerId in array is == trackerId from URL, send that tracker's data
-        const foundTracker = trackers.find((tracker) => tracker.trackerId == trackerID);
 
-        res.json(foundTracker);
-    })
+        //Find the user
+        const userTrackers = await db.collection('trackers').find({userId:userId}).toArray();
+        // console.log(userTrackers);
+
+        //Find tracker info and store as array in trackers
+        const foundTracker = userTrackers.find((tracker) => tracker.trackerId == trackerId);
+        
+
+        //Send status(success) and found information
+        res.status(200).json({trackers:foundTracker});
+        
+    }catch(error){
+        res.status(500).json({error:error.message});
+    }
 });
 
 //GET to retrieve specific tracker session by trackerid and session id OR date
-router.get('/:userId/:trackerId/:sessionId', (req, res) => {
-    const trackerID = req.params.trackerId;
-    const sessionID = req.params.sessionId;
+router.get('/:userId/:trackerId/:sessionId', async (req, res) => {
+    try{      
+        const db = client.db('LifeTrackerdb');
 
-    
-    fs.readFile('./data/trackerData/trackerData.json', 'utf8', (err, data) => {
-        if (err) {
-            console.log(err);
-            return res.send('Error retrieving tracker information');
-        }
-        //Store full array 
-        const trackers = JSON.parse(data);
-
-        //If trackerId in array is == trackerId from URL, send that tracker's data
-        const {foundTracker} = trackers.find((tracker) => tracker.trackerId == trackerID);
-
-        const foundSession = foundTracker.sessions.find((session) => session.sessionId == sessionID);
+        const userId = req.params.userId;
+        const trackerId = req.params.trackerId;
+        const sessionId = req.params.sessionId;    
 
 
-        res.json(foundSession);
-    })
+        //Find the user
+        const userTrackers = await db.collection('sessions').find({userId:userId}).toArray();
+
+        //Find all sessions under a trackerId
+        const trackerSessions = userTrackers.filter((tracker) => tracker.trackerId == trackerId);
+
+        //Find specific sesssion by sessionid
+        const session = trackerSessions.find((session) => session.sessionId == sessionId);
+
+        //Send status(success) and found information
+        res.status(200).json({Trackers:session});
+        
+    }catch(error){
+        res.status(500).json({error:error.message});
+    }
 });
+
+//GET to get all sessions for one users specfic tracker
 
 
 
 
 //POST
+//POST to add new tracker to trackers array within the Trackers collection document
+router.post('/', async (req, res) => {
+    try{    
+        const newTracker = req.body;
+        // console.log(req.body);
+
+        const db = client.db('LifeTrackerdb');
+
+        const userId = newTracker.userId;
+        const trackerName = newTracker.tracker_name;
+
+        // console.log(newTracker);
+
+
+        //Check if there is already a user object with provided userId
+        const foundUser = await db.collection('trackers').findOne({userId:userId});
+        const foundTracker = foundUser.find((tracker) => tracker.tracker_name == trackerName);
+
+        // console.log(foundUser);
+        
+        //If tracker name already exists, send error message
+        if (foundTracker) {
+            res.status(409).json({error:'User Already Exists'});
+        } else {
+            //
+            const tracker = await db.collection('trackers').insertOne(newTracker);
+            console.log(tracker); 
+
+            //Send status(success) and found information
+            res.status(200).json(tracker);
+        }
+        
+    }catch(error){
+        res.status(500).json({error:error.message});
+    }
+});
+
+//POST to add new session data to sessions 
+router.post('/', async (req, res) => {
+    try{    
+        const newTracker = req.body;
+        // console.log(req.body);
+
+        const db = client.db('LifeTrackerdb');
+
+        const userId = newTracker.userId;
+        const trackerName = newTracker.tracker_name;
+
+        // console.log(newTracker);
+
+
+        //Check if there is already a user object with provided userId
+        const foundUser = await db.collection('trackers').findOne({userId:userId});
+        const foundTracker = foundUser.find((tracker) => tracker.tracker_name == trackerName);
+
+        // console.log(foundUser);
+        
+        //If tracker name already exists, send error message
+        if (foundTracker) {
+            res.status(409).json({error:'User Already Exists'});
+        } else {
+            //
+            const tracker = await db.collection('trackers').insertOne(newTracker);
+            console.log(tracker); 
+
+            //Send status(success) and found information
+            res.status(200).json(tracker);
+        }
+        
+    }catch(error){
+        res.status(500).json({error:error.message});
+    }
+});
 
 //PUT
 
