@@ -182,9 +182,7 @@ passport.use(
                 firstName: profile.name.givenName,
                 lastName: profile.name.familyName,
                 email: profile.emails,
-                profPic: profile.photos,
-                trackers: [],
-                sessions:[]
+                profPic: profile.photos
             };
 
             fetch('http://localhost:5050/users', {
@@ -202,6 +200,15 @@ passport.use(
             .catch(error => {
                 console.log(error);
             })
+
+            fetch('http://localhost:5050/trackers', {
+                method:'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }, 
+                body: JSON.stringify(newUserTracker)
+            }) 
+            
 
             // console.log(newUser);
 
