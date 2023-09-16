@@ -120,9 +120,10 @@ const merchandiseRoutes = require('./routes/merchandiseRoutes');
 const copyRoutes = require('./routes/copyRoutes');
 const trackerRoutes = require('./routes/trackerRoutes');
 const articleRoutes = require('./routes/articlesRoutes');
+const sessionRoutes = require('./routes/sessionRoutes');
 require('dotenv');
 
-
+ 
 
 const app = express();
 
@@ -143,6 +144,8 @@ app.use('/merchandise', merchandiseRoutes);
 app.use('/copy', copyRoutes);
 app.use('/trackers', trackerRoutes);
 app.use('/articles', articleRoutes);
+app.use('/sessions', sessionRoutes);
+
 
 // //To use Public folder to serve static images
 app.use(express.static('public'));
