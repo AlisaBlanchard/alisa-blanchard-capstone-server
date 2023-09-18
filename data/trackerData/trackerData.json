@@ -1,0 +1,56 @@
+[
+    {
+        "userId": "116455126248579470243",
+        "trackerId": "001",
+        "tracker_name": "Meditation",
+        "template": [
+            {
+                "label": "Time Meditated",
+                "method": "Number",
+                "value": 0
+            },
+            {
+                "label": "Mood",
+                "method": "RangeRadio",
+                "value": 0
+            },
+            {
+                "label": "Breakdowns",
+                "method": "Number",
+                "value": 0
+            },
+            {
+                "label": "Breakdowns",
+                "method": "BooleanRadio",
+                "value": null
+            }
+        ]
+    },
+    {
+        "userId": "116455126248579470243",
+        "trackerId": "002",
+        "tracker_name": "Dog Behaviour",
+        "template": [
+            {
+                "label": "Walks",
+                "method": "Number",
+                "value": 0
+            },
+            {
+                "label": "Mood",
+                "method": "RangeRadio",
+                "value": 0
+            },
+            {
+                "label": "Accidents",
+                "method": "Number",
+                "value": 0
+            },
+            {
+                "label": "Breakdowns",
+                "method": "BooleanRadio",
+                "value": null
+            }
+        ]
+    }
+]

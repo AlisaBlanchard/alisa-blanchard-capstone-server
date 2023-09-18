@@ -1,70 +1,61 @@
+const { MongoClient } = require('mongodb');
 const express = require('express');
 const router = express.Router();
 const fs = require('fs');
 const bodyparser = require('body-parser');
 const { v4: uuidv4 } = require('uuid');
+const path = require('path');
+require('dotenv').config({path:path.join(__dirname, '../.env')}); //If gives error specificy the exact path
+const { MONGO_URI } = process.env;
 
 //To use bodyparser
 router.use(bodyparser.json());
 
+const options = {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    writeConcern: {
+        w: 'majority' // Corrected write concern mode
+    }
+};
+
+const client = new MongoClient(MONGO_URI, options);
+client.connect();
+
+
 //GET
 //GET to retrieve all of copy array
-router.get('/', (req, res) => {
-    fs.readFile('./data/copy/copy.json', 'utf8', (err, data) => {
-        if (err) {
-            console.log(err);
-            return res.send('Error retrieving copy array');
-        }
-        res.json(JSON.parse(data));
-    })
+router.get('/', async (req, res) => {
+    try{      
+        const db = client.db('LifeTrackerdb');
+        //Find tracker info and store as array in trackers
+        const copy = await db.collection('copy').find().toArray();
+
+        //Send status(success) and found information
+        res.status(200).json({copy:copy});
+        
+    }catch(error){
+        res.status(500).json({error:error.message});
+    }
 });
 
 //GET to retrieve all copy of a single sectionId
-router.get('/:sectionId', (req, res) => {
-    const sectionID = req.params.sectionId;
+router.get('/:sectionId', async (req, res) => {
+    try{      
+        const db = client.db('LifeTrackerdb');
 
-    fs.readFile('./data/copy/copy.json', 'utf8', (err, data) => {
-        if (err) {
-            console.log(err);
-            return res.send('Error retrieving copy array');
-        }
-        //Store full array 
-        const copyArray = JSON.parse(data);
+        const sectionId = req.params.sectionId;
 
-        //If userId in array is == userId from URL, send that user's data
-        const foundSection = items.find((obj) => obj.sectionId == sectionID);
+        //Find tracker info and store as array in trackers
+        const sectionCopy = await db.collection('copy').findOne({sectionId:sectionId});
 
-        res.json(foundSection);
-    });
+        //Send status(success) and found information
+        res.status(200).json({copy:sectionCopy});
+        
+    }catch(error){
+        res.status(500).json({error:error.message});
+    }
 });
 
-//GET to retrieve all of articles array
-router.get('/articles', (req, res) => {
-    fs.readFile('./data/copy/articles.json', 'utf8', (err, data) => {
-        if (err) {
-            console.log(err);
-            return res.send('Error retrieving articles array');
-        }
-        res.json(JSON.parse(data));
-    })
-});
 
-//GET to retrieve a single article by articleId
-router.get('/articles/:articleId', (req, res) => {
-    const articleID = req.params.articleId;
-
-    fs.readFile('./data/copy/copy.json', 'utf8', (err, data) => {
-        if (err) {
-            console.log(err);
-            return res.send('Error retrieving articles array');
-        }
-        //Store full array 
-        const articles = JSON.parse(data);
-
-        //If userId in array is == userId from URL, send that user's data
-        const foundArticle = articles.find((article) => article.articleId == articleID);
-
-        res.json(foundArticle);
-    });
-});
-
+module.exports = router;
