@@ -167,6 +167,8 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+let userID = '';
+
 // Google OAuth Configuration
 passport.use(
     new GoogleStrategy(
@@ -179,6 +181,8 @@ passport.use(
             // Store user information in your database or session.
             // console.log(profile);
             
+            userID = profile.id;
+
             //New User object that gets its information from google log in
             const newUser = {
                 userId: profile.id,
@@ -233,7 +237,7 @@ app.get(
     passport.authenticate('google', { failureRedirect: '/' }),
     (req, res) => {
         // Successful authentication, redirect to the frontend app.
-        res.redirect('http://localhost:3000/');
+        res.redirect(`http://localhost:3000/${userID}`);
     }
 );
 

@@ -88,13 +88,6 @@ router.get('/:userId/:trackerId', async (req, res) => {
 });
 
 
-
-
-//GET to get all sessions for one users specfic tracker
-
-
-
-
 //POST
 //POST to add new tracker to trackers array within the Trackers collection document
 router.post('/', async (req, res) => {
@@ -112,21 +105,25 @@ router.post('/', async (req, res) => {
             tracker_name: trackerName,
             template: [
                 {
+                    row: 1,
                     label: test.label1,
                     method: test.method1,
                     value: 0
                 },
                 {
+                    row: 2,
                     label: test.label2,
                     method: test.method2,
                     value: 0
                 },
                 {
+                    row: 3,
                     label: test.label3,
                     method: test.method3,
                     value: 0
                 },
                 {
+                    row: 4,
                     label: test.label4,
                     method: test.method4,
                     value: 0
@@ -162,42 +159,6 @@ router.post('/', async (req, res) => {
     }
 });
 
-// //POST to add new session data to sessions 
-// router.post('/', async (req, res) => {
-//     try{    
-//         const newTracker = req.body;
-//         // console.log(req.body);
-
-//         const db = client.db('LifeTrackerdb');
-
-//         const userId = newTracker.userId;
-//         const trackerName = newTracker.tracker_name;
-
-//         // console.log(newTracker);
-
-
-//         //Check if there is already a user object with provided userId
-//         const foundUser = await db.collection('trackers').findOne({userId:userId});
-//         const foundTracker = foundUser.find((tracker) => tracker.tracker_name == trackerName);
-
-//         // console.log(foundUser);
-        
-//         //If tracker name already exists, send error message
-//         if (foundTracker) {
-//             res.status(409).json({error:'User Already Exists'});
-//         } else {
-//             //
-//             const tracker = await db.collection('trackers').insertOne(newTracker);
-//             console.log(tracker); 
-
-//             //Send status(success) and found information
-//             res.status(200).json(tracker);
-//         }
-        
-//     }catch(error){
-//         res.status(500).json({error:error.message});
-//     }
-// });
 
 //PUT
 
